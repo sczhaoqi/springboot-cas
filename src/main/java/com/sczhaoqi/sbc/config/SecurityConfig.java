@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()//配置安全策略
-                //.antMatchers("/","/hello").permitAll()//定义/请求不需要验证
+                .antMatchers("/","/welcome").permitAll()//定义/请求不需要验证
                 .anyRequest().authenticated()//其余的所有请求都需要验证
                 .and()
                 .logout()
@@ -130,7 +130,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**请求单点退出过滤器*/
     @Bean
     public LogoutFilter casLogoutFilter() {
-        LogoutFilter logoutFilter = new LogoutFilter(casProperties.getCasServerLogoutUrl(), new SecurityContextLogoutHandler());
+//        LogoutFilter logoutFilter = new LogoutFilter(casProperties.getCasServerLogoutUrl(), new SecurityContextLogoutHandler());
+        LogoutFilter logoutFilter = new LogoutFilter("/", new SecurityContextLogoutHandler());
         logoutFilter.setFilterProcessesUrl(casProperties.getAppLogoutUrl());
         return logoutFilter;
     }
